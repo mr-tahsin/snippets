@@ -29,10 +29,9 @@
     <form id="timeForm">
       <label for="selectTime">Select Time:</label>
       <select id="selectTime">
-        <!-- JS will populate options -->
       </select>
 
-      <!-- Hidden real time input -->
+      <!-- real time input hide -->
       <input type="time" id="realTime" name="time" hidden />
 
       <br /><br />
@@ -49,7 +48,7 @@
       const endHour = 6;
       const intervalMinutes = 5;
 
-      // Populate dropdown
+      
       for (let hour = startHour; hour <= endHour; hour++) {
         for (let minutes = 0; minutes < 60; minutes += intervalMinutes) {
           if (hour === endHour && minutes > 0) break;
@@ -61,20 +60,20 @@
         }
       }
 
-      // Sync selected value to hidden input
+     
       select.addEventListener("change", () => {
         hiddenTime.value = select.value;
       });
 
-      // Set initial value
+     
       select.value = "02:00";
       hiddenTime.value = "02:00";
 
-      // Handle form submission
+     
       document
         .getElementById("timeForm")
         .addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevent actual submission
+          e.preventDefault(); // actual submission prevent korbe
           const selectedTime = hiddenTime.value;
           resultDiv.innerText = "Selected time is: " + selectedTime;
         });
