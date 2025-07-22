@@ -1,40 +1,83 @@
-<form action="TahsinP2.php" method="POST">
-  <label for="selectTime">Select Time:</label>
-  <select id="selectTime">
-    <!-- JS will populate -->
-  </select>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Show Selected Time</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 40px;
+      }
+      label {
+        font-size: 18px;
+      }
+      select,
+      input[type="submit"] {
+        padding: 8px 12px;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        color: green;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="timeForm">
+      <label for="selectTime">Select Time:</label>
+      <select id="selectTime">
+        <!-- JS will populate options -->
+      </select>
 
-  <!-- Hidden real time input -->
-  <input type="time" id="realTime" name="time" hidden />
+      <!-- Hidden real time input -->
+      <input type="time" id="realTime" name="time" hidden />
 
-  <br /><br />
-  <input type="submit" value="Submit" />
-</form>
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
 
-<script>
-  const select = document.getElementById("selectTime");
-  const hiddenTime = document.getElementById("realTime");
-  const startHour = 2;
-  const endHour = 6;
-  const intervalMinutes = 5;
+    <div id="result"></div>
 
-  for (let hour = startHour; hour <= endHour; hour++) {
-    for (let minutes = 0; minutes < 60; minutes += intervalMinutes) {
-      if (hour === endHour && minutes > 0) break;
-      const hr = hour.toString().padStart(2, "0");
-      const min = minutes.toString().padStart(2, "0");
-      const timeStr = `${hr}:${min}`;
-      const option = new Option(timeStr, timeStr);
-      select.add(option);
-    }
-  }
+    <script>
+      const select = document.getElementById("selectTime");
+      const hiddenTime = document.getElementById("realTime");
+      const resultDiv = document.getElementById("result");
+      const startHour = 2;
+      const endHour = 6;
+      const intervalMinutes = 5;
 
-  // Sync value to hidden input
-  select.addEventListener("change", () => {
-    hiddenTime.value = select.value;
-  });
+      // Populate dropdown
+      for (let hour = startHour; hour <= endHour; hour++) {
+        for (let minutes = 0; minutes < 60; minutes += intervalMinutes) {
+          if (hour === endHour && minutes > 0) break;
+          const hr = hour.toString().padStart(2, "0");
+          const min = minutes.toString().padStart(2, "0");
+          const timeStr = `${hr}:${min}`;
+          const option = new Option(timeStr, timeStr);
+          select.add(option);
+        }
+      }
 
-  // Set default value
-  select.value = "02:00";
-  hiddenTime.value = "02:00";
-</script>
+      // Sync selected value to hidden input
+      select.addEventListener("change", () => {
+        hiddenTime.value = select.value;
+      });
+
+      // Set initial value
+      select.value = "02:00";
+      hiddenTime.value = "02:00";
+
+      // Handle form submission
+      document
+        .getElementById("timeForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent actual submission
+          const selectedTime = hiddenTime.value;
+          resultDiv.innerText = "Selected time is: " + selectedTime;
+        });
+    </script>
+  </body>
+</html>
